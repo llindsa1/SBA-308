@@ -102,8 +102,8 @@ const CourseInfo = {
 */
 
   //Make sure the assignment group belongs 
-  function getLearnerData(course, ag, submissions) {
-
+  function getLearnerData(course, ag, submissions) 
+  {
     function validateAssignmentGroup(group) {
         if (group.course_id !== CourseInfo.id) {
             throw new Error(`ag ${group.id} does not belong to the course ${CourseInfo.id}`);
@@ -126,8 +126,18 @@ const CourseInfo = {
     const submissionDate = newDate(submission.submission.submitted_at);
 
     //Skip over assignments that are not due
-    score
-     )
+    if (dueDate > new Date())
+        return;
+    
+    let score= submission.submission.score;
+    if (submissionDate > dueDate) {
+
+        //-10% if late
+        score-= 0.1 * assignment.points_possible;
+
+    }
+    //Calculate score
+    totalScore += (score)
     }
 
 
