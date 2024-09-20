@@ -111,7 +111,7 @@ const CourseInfo = {
     }
 
     //Calculate learner scores
-    function processLearner(learner_id, assignmentsMap, group_weight) {
+    function processLearner(learner_id, assignmentsMap, groupWeight) {
         let totalScore = 0;
         let totalPoints = 0;
         let learnerResult = {id:learner_id};
@@ -136,9 +136,14 @@ const CourseInfo = {
         score-= 0.1 * assignment.points_possible;
 
     }
+    //Calculate % for assignment
+    const percentage = (score / assignment.points_possible) * 100;
+    learnerResult[assignment.id] = percentage;
+
     //Calculate score
-    totalScore += (score)
-    }
+    totalScore += (score / assignment.points_possible) * assignment.points_possible * groupWeight;
+    totalPoints += assignment.points_possible * groupWeight;
+    });
 
 
   }
