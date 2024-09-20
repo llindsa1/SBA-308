@@ -102,23 +102,23 @@ const CourseInfo = {
 */
 
   //Make sure the assignment group belongs 
-  function getLearnerData(course, ag, submissions) 
+  function getLearnerData(courseInfo, assignmentGroups, learnerSubmissions) 
   {
     function validateAssignmentGroup(group) {
-        if (group.course_id !== CourseInfo.id) {
-            throw new Error(`ag ${group.id} does not belong to the course ${CourseInfo.id}`);
+        if (group.course_id !== courseInfo.id) {
+            throw new Error(`Assignment group ${group.id} does not belong to the course ${courseInfo.id}`);
         }
     }
 
     //Calculate learner scores
-    function processLearner(learner_id, assignmentsMap, groupWeight) {
+    function processLearner(learnerID, assignmentsMap, groupWeight) {
         let totalScore = 0;
         let totalPoints = 0;
-        let learnerResult = {id:learner_id};
+        let learnerResult = {id:learnerID};
 
      //Loop through submissions and calculate score on assignments
-     submissions.filter(submission => submission.learner_id === learnerID)
-     .forEach(submission => {const assignment= assignmentsMap[submission.assignment_d];
+     learnerSubmissions.filter(submission => submission.learner_id === learnerID)
+     .forEach(submission => {const assignment= assignmentsMap[submission.assignment_id];
         if (!assignment)
             return;
     //Skip invalid assignments
@@ -150,17 +150,35 @@ const CourseInfo = {
     return learnerResult;
 }
 // Validate assignment groups
-try {ag.forEach(group => validateAssignmentGroup(group));
+try {assignmentGroups.forEach(group => validateAssignmentGroup(group));
 
     //Map assignment groups by assignment ID
     const assignmentsMap = {};
-    ag.forEach (group =>{group.assignments.forEach(assignment => {
+    assignmentGroups.forEach (group =>{group.assignments.forEach(assignment => {
         if (assignment.points_possible === 0) {
-            throw newError (`Assignment  ${assigment.id} has 0 points possible`);
+            throw newError (`Assignment  ${assignment.id} has 0 points possible`);
         }
-    
-    
-}
+    assignmentsMap[assignment.id] = {
+        ...assignment,groupWeight:group.group_weight / 100
+    };
+});
+    });
+    // Get individual learner IDs from the submissions
+    const learnerIDs = [...newSet(learnerSubmissions.map(submission =>submission.learner_id))];
 
+    //Calculate each learner result
+    const results = learnerIDs.map(learnerID => {
+        return processLearner(learnerID, assignmentsMap, 1);
 
+     //Assume groupWeight is 1, modify as needed.
+    });
+
+    return results;
+
+  } catch (error) {console.error("An error occurred:", error.message);
+    return [];
   }
+}
+const result = getLearnerData(courseInfo, assignmentGroups, learnerSubmissions);
+console.log(result);
+
