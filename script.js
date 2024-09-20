@@ -106,7 +106,7 @@ const CourseInfo = {
 
     function validateAssignmentGroup(group) {
         if (group.course_id !== CourseInfo.id) {
-            throw new Error(`Assignment gruoup ${group.id} does not belong to the course ${CourseInfo.id}`);
+            throw new Error(`ag ${group.id} does not belong to the course ${CourseInfo.id}`);
         }
     }
 
@@ -116,7 +116,18 @@ const CourseInfo = {
         let totalPoints = 0;
         let learnerResult = {id:learner_id};
 
-        
+     //Loop through submissions and calculate score on assignments
+     submissions.filter(submission => submission.learner_id === learnerID)
+     .forEach(submission => {const assignment= assignmentsMap[submission.assignment_d];
+        if (!assignment)
+            return;
+    //Skip invalid assignments
+    const dueDate= newDate(assignment.due_at);
+    const submissionDate = newDate(submission.submission.submitted_at);
+
+    //Skip over assignments that are not due
+    score
+     )
     }
 
 
