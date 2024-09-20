@@ -1,4 +1,4 @@
-// The provided course information.
+/* The provided course information.
 const CourseInfo = {
     id: 451,
     name: "Introduction to JavaScript"
@@ -99,4 +99,25 @@ const CourseInfo = {
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
   
   console.log(result);
-  
+*/
+
+  //Make sure the assignment group belongs 
+  function getLearnerData(course, ag, submissions) {
+
+    function validateAssignmentGroup(group) {
+        if (group.course_id !== CourseInfo.id) {
+            throw new Error(`Assignment gruoup ${group.id} does not belong to the course ${CourseInfo.id}`);
+        }
+    }
+
+    //Calculate learner scores
+    function processLearner(learner_id, assignmentsMap, group_weight) {
+        let totalScore = 0;
+        let totalPoints = 0;
+        let learnerResult = {id:learner_id};
+
+        
+    }
+
+
+  }
