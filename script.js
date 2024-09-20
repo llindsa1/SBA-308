@@ -143,7 +143,24 @@ const CourseInfo = {
     //Calculate score
     totalScore += (score / assignment.points_possible) * assignment.points_possible * groupWeight;
     totalPoints += assignment.points_possible * groupWeight;
-    });
+    }); 
+
+    //if total points is 0, set avg to 0
+    learnerResult.avg = totalPoints ? (totalScore / totalPoints) * 100 : 0;
+    return learnerResult;
+}
+// Validate assignment groups
+try {ag.forEach(group => validateAssignmentGroup(group));
+
+    //Map assignment groups by assignment ID
+    const assignmentsMap = {};
+    ag.forEach (group =>{group.assignments.forEach(assignment => {
+        if (assignment.points_possible === 0) {
+            throw newError (`Assignment  ${assigment.id} has 0 points possible`);
+        }
+    
+    
+}
 
 
   }
